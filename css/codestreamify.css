@@ -46,8 +46,13 @@
   padding-top: 5px;
   padding-bottom: 5px;
   white-space: nowrap;
+  position: relative;
 }
 
+#codestream-btn-container .select-menu-item .jetbrains {
+  margin-left: -300px;
+  width: 300px;
+}
 .repository-content > div #codestream-btn-container.codestream-file-btn,
 .file-navigation #codestream-btn-container {
   margin-left: 6px;

@@ -2,12 +2,7 @@ import * as select from "select-dom";
 import * as ghInjection from "github-injection";
 import { ConfigProvider } from "../config";
 import { ButtonInjector, InjectorBase, checkIsBtnUpToDate } from "./injector";
-import {
-  renderCodeStreamUrl,
-  makeOpenInPopup,
-  openEditor,
-  IDEs,
-} from "../utils";
+import { renderCodeStreamUrl, openEditor, IDEs } from "../utils";
 
 namespace CodeStreamify {
   export const NAV_BTN_ID = "codestream-btn-nav";
@@ -22,6 +17,7 @@ namespace CodeStreamify {
  * This implementation currently assumes that there is only ever one button per page
  */
 export class GitHubInjector extends InjectorBase {
+  protected configProvider: ConfigProvider;
   constructor(configProvider: ConfigProvider) {
     super(configProvider, [
       new PullInjector(),
@@ -30,6 +26,7 @@ export class GitHubInjector extends InjectorBase {
       new NavigationInjector(),
       new EmptyRepositoryInjector(),
     ]);
+    this.configProvider = configProvider;
   }
 
   canHandleCurrentPage(): boolean {
@@ -74,7 +71,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
 
   abstract isApplicableToCurrentPage(): boolean;
 
-  inject(currentUrl: string, openAsPopup: boolean) {
+  inject(ide: string, autoOpen: boolean) {
     const actionbar = select(this.parentSelector);
     if (!actionbar) {
       return;
@@ -82,15 +79,10 @@ abstract class ButtonInjectorBase implements ButtonInjector {
 
     const oldBtn = document.getElementById(CodeStreamify.NAV_BTN_ID);
     if (oldBtn) {
-      if (!checkIsBtnUpToDate(oldBtn, currentUrl)) {
-        // update button
-        (oldBtn as HTMLAnchorElement).href = currentUrl;
-      }
-      // button is there and up-to-date
       return;
     }
 
-    const btn = this.renderButton(currentUrl, openAsPopup);
+    const btn = this.renderButton(ide, autoOpen);
 
     const btnGroup = actionbar.getElementsByClassName("BtnGroup");
     if (
@@ -120,7 +112,12 @@ abstract class ButtonInjectorBase implements ButtonInjector {
     }
   }
 
-  protected renderButton(url: string, openAsPopup: boolean): HTMLElement {
+  protected reRenderButton(ide: string, autoOpen: boolean) {
+    const oldBtn = document.getElementById(CodeStreamify.CSS_REF_BTN_CONTAINER);
+    if (oldBtn) oldBtn.replaceWith(this.renderButton(ide, autoOpen));
+  }
+
+  protected renderButton(ide: string, autoOpen: boolean): HTMLElement {
     let classes = this.btnClasses + ` ${CodeStreamify.NAV_BTN_CLASS}`;
     if (this.float) {
       classes = classes + ` float-right`;
@@ -136,19 +133,24 @@ abstract class ButtonInjectorBase implements ButtonInjector {
       this.toggleDropdown();
     };
 
+    const selectedIde = IDEs.find((_) => _.moniker === ide) || IDEs[0];
+
+    if (autoOpen) {
+      // openEditor(selectedIde.moniker, { url: window.location.href });
+    }
+
     const a = document.createElement("a");
     a.id = CodeStreamify.NAV_BTN_ID;
     a.title = "CodeStream";
-    a.innerHTML =
-      "<img width='14' height='14' style='vertical-align: -2px' src='https://images.codestream.com/ides/128/vsc.png'> Open in VS Code";
+    a.innerHTML = `<img width='14' height='14' style='vertical-align: -2px' src='https://images.codestream.com/ides/128/${selectedIde.moniker}.png'> Open in ${selectedIde.ideName}`;
     // a.href = url;
     a.onclick = (ev) => {
-      openEditor("vsc", { url: window.location.href });
+      openEditor(selectedIde.moniker, { url: window.location.href });
     };
     a.target = "_blank";
-    if (openAsPopup) {
-      makeOpenInPopup(a);
-    }
+    // if (autoOpen) {
+    // makeOpenInPopup(a);
+    // }
     a.className = "btn btn-sm";
 
     const a2 = document.createElement("a");
@@ -160,9 +162,9 @@ abstract class ButtonInjectorBase implements ButtonInjector {
     };
     // a.href = url;
     // a.target = "_blank";
-    if (openAsPopup) {
-      makeOpenInPopup(a2);
-    }
+    // if (autoOpen) {
+    // makeOpenInPopup(a2);
+    // }
     a2.className = "btn btn-sm";
 
     this.adjustButton(a);
@@ -186,6 +188,14 @@ abstract class ButtonInjectorBase implements ButtonInjector {
       "Automatically open PRs in your IDE when you visit the PR web page.";
     const check = document.createElement("input");
     check.type = "checkbox";
+    check.checked = autoOpen;
+    checkRow.onclick = async (ev) => {
+      const configProvider = await ConfigProvider.create();
+      configProvider.setConfig({
+        autoOpen: !autoOpen,
+      });
+      this.reRenderButton(ide, !autoOpen);
+    };
     checkRow.appendChild(check);
     const checkLabel = document.createElement("span");
     checkLabel.textContent = "Auto-open";
@@ -196,8 +206,20 @@ abstract class ButtonInjectorBase implements ButtonInjector {
 
     IDEs.forEach((ide) => {
       const ideRow = document.createElement("div");
-      ideRow.className = "select-menu-item";
       ideRow.innerHTML = `<img width='20' height='20' style='vertical-align: -4px; margin-right: 2px;' src='https://images.codestream.com/ides/128/${ide.moniker}.png'> ${ide.ideName}`;
+      ideRow.className = "select-menu-item";
+      if (ide.moniker.indexOf("jb-") === 0) {
+        // ideRow.title = "Requires the JetBrains Toolbox App";
+      }
+      ideRow.onclick = async (ev) => {
+        const configProvider = await ConfigProvider.create();
+        configProvider.setConfig({
+          ide: ide.moniker,
+        });
+        openEditor(ide.moniker, { url: window.location.href });
+        this.toggleDropdown();
+        this.reRenderButton(ide.moniker, autoOpen);
+      };
       ddBody.appendChild(ideRow);
       if (ide.sepAfter) {
         ddBody.appendChild(document.createElement("HR"));

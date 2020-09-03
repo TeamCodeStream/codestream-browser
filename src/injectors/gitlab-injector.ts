@@ -52,24 +52,22 @@ class RepositoryInjector implements ButtonInjector {
     return result;
   }
 
-  inject(currentUrl: string, openAsPopup: boolean) {
+  inject(ide: string, autoOpen: boolean) {
     const parent = select(RepositoryInjector.PARENT_SELECTOR);
     if (!parent || !parent.firstElementChild) {
       return;
     }
 
     const oldBtn = document.getElementById(CodeStreamify.BTN_ID);
-    if (oldBtn && !checkIsBtnUpToDate(oldBtn, currentUrl)) {
-      // Only add once
-      (oldBtn as HTMLAnchorElement).href = currentUrl;
+    if (oldBtn && !checkIsBtnUpToDate(oldBtn, ide)) {
       return;
     }
 
-    const btn = this.renderButton(currentUrl, openAsPopup);
+    const btn = this.renderButton(ide, autoOpen);
     parent.firstElementChild.appendChild(btn);
   }
 
-  protected renderButton(url: string, openAsPopup: boolean): HTMLElement {
+  protected renderButton(url: string, autoOpen: boolean): HTMLElement {
     const container = document.createElement("div");
     container.className = "project-clone-holder d-none d-md-inline-block";
 
@@ -84,7 +82,7 @@ class RepositoryInjector implements ButtonInjector {
     a.target = "_blank";
     a.className = "btn btn-primary";
 
-    if (openAsPopup) {
+    if (autoOpen) {
       makeOpenInPopup(a);
     }
 

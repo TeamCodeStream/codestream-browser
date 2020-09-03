@@ -3,12 +3,14 @@ import { EventEmitter } from "events";
 
 export interface Config {
   codestreamURL: string;
-  openAsPopup: boolean;
+  ide: string;
+  autoOpen: boolean;
 }
 
 export const DEFAULT_CONFIG: Config = {
   codestreamURL: "https://codestream.com",
-  openAsPopup: false,
+  ide: "vsc",
+  autoOpen: false,
 };
 
 export interface ConfigListener {

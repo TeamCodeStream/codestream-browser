@@ -14,7 +14,7 @@ const init = async () => {
   // Initialize UI
   const initialConfig = configProvider.getConfig();
   codestreamUrlInput.value = initialConfig.codestreamURL;
-  codestreamAutoOpenInput.checked = initialConfig.openAsPopup;
+  codestreamAutoOpenInput.checked = initialConfig.autoOpen;
 
   let timeout: number | undefined = undefined;
 
@@ -23,7 +23,7 @@ const init = async () => {
     // Update config (propagated internally)
     configProvider.setConfig({
       codestreamURL: codestreamUrlInput.value || undefined,
-      openAsPopup: codestreamAutoOpenInput.checked,
+      autoOpen: codestreamAutoOpenInput.checked,
     });
     if (timeout) {
       window.clearTimeout(timeout);

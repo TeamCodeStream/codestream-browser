@@ -1,5 +1,4 @@
 import { ConfigProvider } from "../config";
-import { renderCodeStreamUrl } from "../utils";
 
 export interface Injector {
   /**
@@ -35,7 +34,7 @@ export interface ButtonInjector {
    * Injects the actual button
    * @param currentUrl The currently configured CodeStream URL
    */
-  inject(currentUrl: string, openAsPopup: boolean): void;
+  inject(ide: string, autoOpen: boolean): void;
 }
 
 export abstract class InjectorBase implements Injector {
@@ -50,10 +49,10 @@ export abstract class InjectorBase implements Injector {
   abstract update(): Promise<void>;
 
   injectButtons(singleInjector: boolean = false) {
-    const currentUrl = renderCodeStreamUrl(this.config.codestreamURL);
+    const ide = this.config.ide;
     for (const injector of this.buttonInjectors) {
       if (injector.isApplicableToCurrentPage()) {
-        injector.inject(currentUrl, this.config.openAsPopup);
+        injector.inject(ide, this.config.autoOpen);
         if (singleInjector) {
           break;
         }

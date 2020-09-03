@@ -221,6 +221,14 @@ export function openEditor(moniker: string, options: any) {
     protocol,
     function () {
       //fail
+      if (moniker.indexOf("jb-") === 0) {
+        const result = window.confirm(
+          "Requires the JetBrains Toolbox App. Click OK to go to\nhttps://www.jetbrains.com/toolbox/app/"
+        );
+        if (result)
+          window.location.href = "https://www.jetbrains.com/toolbox/app/";
+        // console.warn(result);
+      }
       console.log(`CodeStream: failed ${protocol}`);
     },
     function () {

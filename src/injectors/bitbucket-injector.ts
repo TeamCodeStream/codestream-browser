@@ -62,7 +62,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
 
   abstract isApplicableToCurrentPage(): boolean;
 
-  inject(currentUrl: string, openAsPopup: boolean) {
+  inject(ide: string, autoOpen: boolean) {
     let actionbar = select(this.parent);
     if (actionbar && this.up) {
       for (let i = 0; i < this.up; i++) {
@@ -79,15 +79,10 @@ abstract class ButtonInjectorBase implements ButtonInjector {
 
     const oldBtn = document.getElementById(CodeStreamify.NAV_BTN_ID);
     if (oldBtn) {
-      if (!checkIsBtnUpToDate(oldBtn, currentUrl)) {
-        // update button
-        (oldBtn as HTMLAnchorElement).href = currentUrl;
-      }
-      // button is there and up-to-date
       return;
     }
 
-    const btn = this.renderButton(currentUrl, openAsPopup);
+    const btn = this.renderButton(ide, autoOpen);
 
     const btnGroup = actionbar.children;
     if (btnGroup && btnGroup.length > 0) {
@@ -97,7 +92,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
 
   protected renderButton(
     url: string,
-    openAsPopup: boolean,
+    autoOpen: boolean,
     float: boolean = true
   ): HTMLElement {
     let classes = CodeStreamify.NAV_BTN_CLASS;
@@ -115,7 +110,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
     a.text = "Open In";
     a.href = url;
     a.target = "_blank";
-    if (openAsPopup) {
+    if (autoOpen) {
       makeOpenInPopup(a);
     }
     a.className = "btn btn-sm btn-primary";
