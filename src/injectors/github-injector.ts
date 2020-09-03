@@ -136,7 +136,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
     const selectedIde = IDEs.find((_) => _.moniker === ide) || IDEs[0];
 
     if (autoOpen) {
-      // openEditor(selectedIde.moniker, { url: window.location.href });
+      openEditor(selectedIde.moniker, { url: window.location.href });
     }
 
     const a = document.createElement("a");
