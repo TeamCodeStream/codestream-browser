@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "name": "codestream-web-extension",
+  "version": "0.0.1",
+  "license": "Apache2",
+  "description": "Browser extension (Chrome/Firefox) for enhancing GitHub with CodeStream links",
+  "main": "src/codestreamify.js",
+  "scripts": {
+    "build": "yarn clean && npx tsc && yarn webpack",
+    "package": "yarn clean:package && zip -rD --exclude='src/*.ts' codestream.xpi dist/bundles icons src manifest.json",
+    "clean": "rimraf dist && yarn clean:package",
+    "clean:package": "rimraf codestream.xpi",
+    "webpack": "webpack",
+    "watch": "webpack -w"
+  },
+  "dependencies": {
+    "@types/events": "^3.0.0",
+    "dom-loaded": "^2.0.0",
+    "github-injection": "^1.0.1",
+    "select-dom": "^5.1.0",
+    "webextension-polyfill": "^0.5.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.0.5",
+    "css-loader": "^3.2.0",
+    "rimraf": "^3.0.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^1.0.0",
+    "webextension-polyfill-ts": "^0.11.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}

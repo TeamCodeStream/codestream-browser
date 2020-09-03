@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "name": "CodeStream - in-IDE collaboration",
+  "short_name": "CodeStream",
+  "version": "1.6",
+  "description": "Load GitHub PRs and issues in vscode, visual studio, jetbrains and atom.",
+  "icons": {
+    "16": "icons/codestream-logo-16.png",
+    "48": "icons/codestream-logo-48.png",
+    "128": "icons/codestream-logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.github.com/*"],
+      "js": ["dist/bundles/codestreamify.bundle.js"]
+    }
+  ],
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/codestream-logo-16.png",
+      "48": "icons/codestream-logo-48.png",
+      "128": "icons/codestream-logo.png"
+    },
+    "default_title": "CodeStream Manifest Browser Action"
+  },
+  "background": {
+    "scripts": ["dist/bundles/background.bundle.js"]
+  },
+  "options_ui": {
+    "page": "src/options/options.html"
+  },
+  "permissions": ["activeTab", "storage"]
+}
