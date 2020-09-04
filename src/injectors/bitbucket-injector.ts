@@ -62,7 +62,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
 
   abstract isApplicableToCurrentPage(): boolean;
 
-  inject(ide: string, autoOpen: boolean) {
+  inject(ide: string, autoOpen: boolean, checkoutBranch: boolean) {
     let actionbar = select(this.parent);
     if (actionbar && this.up) {
       for (let i = 0; i < this.up; i++) {
@@ -82,7 +82,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
       return;
     }
 
-    const btn = this.renderButton(ide, autoOpen);
+    const btn = this.renderButton(ide, autoOpen, checkoutBranch);
 
     const btnGroup = actionbar.children;
     if (btnGroup && btnGroup.length > 0) {
@@ -93,6 +93,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
   protected renderButton(
     url: string,
     autoOpen: boolean,
+    checkoutBranch: boolean,
     float: boolean = true
   ): HTMLElement {
     let classes = CodeStreamify.NAV_BTN_CLASS;

@@ -5,12 +5,14 @@ export interface Config {
   codestreamURL: string;
   ide: string;
   autoOpen: boolean;
+  checkoutBranch: boolean;
 }
 
 export const DEFAULT_CONFIG: Config = {
   codestreamURL: "https://codestream.com",
   ide: "vsc",
   autoOpen: false,
+  checkoutBranch: false,
 };
 
 export interface ConfigListener {

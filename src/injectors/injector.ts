@@ -24,6 +24,12 @@ export interface Injector {
   update(): Promise<void>;
 }
 
+// export interface ButtonArgs {
+//   ide: string;
+//   autoOpen: boolean;
+//   checkoutBranch: boolean;
+// }
+
 export interface ButtonInjector {
   /**
    * Whether the injector is meant to be used on the current page
@@ -34,7 +40,7 @@ export interface ButtonInjector {
    * Injects the actual button
    * @param currentUrl The currently configured CodeStream URL
    */
-  inject(ide: string, autoOpen: boolean): void;
+  inject(ide: string, autoOpen: boolean, checkoutBranch: boolean): void;
 }
 
 export abstract class InjectorBase implements Injector {
@@ -52,7 +58,7 @@ export abstract class InjectorBase implements Injector {
     const ide = this.config.ide;
     for (const injector of this.buttonInjectors) {
       if (injector.isApplicableToCurrentPage()) {
-        injector.inject(ide, this.config.autoOpen);
+        injector.inject(ide, this.config.autoOpen, this.config.checkoutBranch);
         if (singleInjector) {
           break;
         }

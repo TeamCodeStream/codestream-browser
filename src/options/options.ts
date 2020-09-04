@@ -6,6 +6,9 @@ const codestreamUrlInput = document.getElementById(
 const codestreamAutoOpenInput = document.getElementById(
   "codestream-auto-open"
 )! as HTMLInputElement;
+const codestreamCheckoutBranchInput = document.getElementById(
+  "codestream-checkout-branch"
+)! as HTMLInputElement;
 const messageElement = document.getElementById("message")! as HTMLDivElement;
 
 const init = async () => {
@@ -15,6 +18,7 @@ const init = async () => {
   const initialConfig = configProvider.getConfig();
   codestreamUrlInput.value = initialConfig.codestreamURL;
   codestreamAutoOpenInput.checked = initialConfig.autoOpen;
+  codestreamCheckoutBranchInput.checked = initialConfig.checkoutBranch;
 
   let timeout: number | undefined = undefined;
 

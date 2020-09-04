@@ -138,6 +138,12 @@ export function openEditor(moniker: string, options: any) {
       action: "open",
       query: [{ key: "url", value: encodeURIComponent(options.url) }],
     };
+    if (options.checkoutBranch) {
+      route.query.push({
+        key: "checkoutBranch",
+        value: true,
+      });
+    }
   } else if (type === "navigate") {
     if (options.action === "search") {
       // special handler for search

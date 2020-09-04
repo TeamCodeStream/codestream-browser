@@ -22,9 +22,9 @@ export class GitHubInjector extends InjectorBase {
     super(configProvider, [
       new PullInjector(),
       new IssueInjector(),
-      new FileInjector(),
-      new NavigationInjector(),
-      new EmptyRepositoryInjector(),
+      // new FileInjector(),
+      // new NavigationInjector(),
+      // new EmptyRepositoryInjector(),
     ]);
     this.configProvider = configProvider;
   }
@@ -71,7 +71,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
 
   abstract isApplicableToCurrentPage(): boolean;
 
-  inject(ide: string, autoOpen: boolean) {
+  inject(ide: string, autoOpen: boolean, checkoutBranch: boolean) {
     const actionbar = select(this.parentSelector);
     if (!actionbar) {
       return;
@@ -82,7 +82,7 @@ abstract class ButtonInjectorBase implements ButtonInjector {
       return;
     }
 
-    const btn = this.renderButton(ide, autoOpen);
+    const btn = this.renderButton(ide, autoOpen, checkoutBranch);
 
     const btnGroup = actionbar.getElementsByClassName("BtnGroup");
     if (
@@ -112,12 +112,21 @@ abstract class ButtonInjectorBase implements ButtonInjector {
     }
   }
 
-  protected reRenderButton(ide: string, autoOpen: boolean) {
+  protected reRenderButton(
+    ide: string,
+    autoOpen: boolean,
+    checkoutBranch: boolean
+  ) {
     const oldBtn = document.getElementById(CodeStreamify.CSS_REF_BTN_CONTAINER);
-    if (oldBtn) oldBtn.replaceWith(this.renderButton(ide, autoOpen));
+    if (oldBtn)
+      oldBtn.replaceWith(this.renderButton(ide, autoOpen, checkoutBranch));
   }
 
-  protected renderButton(ide: string, autoOpen: boolean): HTMLElement {
+  protected renderButton(
+    ide: string,
+    autoOpen: boolean,
+    checkoutBranch: boolean
+  ): HTMLElement {
     let classes = this.btnClasses + ` ${CodeStreamify.NAV_BTN_CLASS}`;
     if (this.float) {
       classes = classes + ` float-right`;
@@ -136,7 +145,10 @@ abstract class ButtonInjectorBase implements ButtonInjector {
     const selectedIde = IDEs.find((_) => _.moniker === ide) || IDEs[0];
 
     if (autoOpen) {
-      openEditor(selectedIde.moniker, { url: window.location.href });
+      openEditor(selectedIde.moniker, {
+        url: window.location.href,
+        checkoutBranch,
+      });
     }
 
     const a = document.createElement("a");
@@ -145,7 +157,10 @@ abstract class ButtonInjectorBase implements ButtonInjector {
     a.innerHTML = `<img width='14' height='14' style='vertical-align: -2px' src='https://images.codestream.com/ides/128/${selectedIde.moniker}.png'> Open in ${selectedIde.ideName}`;
     // a.href = url;
     a.onclick = (ev) => {
-      openEditor(selectedIde.moniker, { url: window.location.href });
+      openEditor(selectedIde.moniker, {
+        url: window.location.href,
+        checkoutBranch,
+      });
     };
     a.target = "_blank";
     // if (autoOpen) {
@@ -194,14 +209,34 @@ abstract class ButtonInjectorBase implements ButtonInjector {
       configProvider.setConfig({
         autoOpen: !autoOpen,
       });
-      this.reRenderButton(ide, !autoOpen);
+      this.reRenderButton(ide, !autoOpen, checkoutBranch);
     };
     checkRow.appendChild(check);
     const checkLabel = document.createElement("span");
     checkLabel.textContent = "Auto-open";
     checkRow.appendChild(checkLabel);
 
+    const checkRow2 = document.createElement("div");
+    checkRow2.className = "select-menu-item";
+    checkRow2.title =
+      "Automatically check out to the branch once loaded in your IDE.";
+    const check2 = document.createElement("input");
+    check2.type = "checkbox";
+    check2.checked = checkoutBranch;
+    checkRow2.onclick = async (ev) => {
+      const configProvider = await ConfigProvider.create();
+      configProvider.setConfig({
+        checkoutBranch: !checkoutBranch,
+      });
+      this.reRenderButton(ide, autoOpen, !checkoutBranch);
+    };
+    checkRow2.appendChild(check2);
+    const checkLabel2 = document.createElement("span");
+    checkLabel2.textContent = "Checkout Branch";
+    checkRow2.appendChild(checkLabel2);
+
     ddBody.appendChild(checkRow);
+    ddBody.appendChild(checkRow2);
     ddBody.appendChild(document.createElement("HR"));
 
     IDEs.forEach((ide) => {
@@ -216,9 +251,9 @@ abstract class ButtonInjectorBase implements ButtonInjector {
         configProvider.setConfig({
           ide: ide.moniker,
         });
-        openEditor(ide.moniker, { url: window.location.href });
+        openEditor(ide.moniker, { url: window.location.href, checkoutBranch });
         this.toggleDropdown();
-        this.reRenderButton(ide.moniker, autoOpen);
+        this.reRenderButton(ide.moniker, autoOpen, checkoutBranch);
       };
       ddBody.appendChild(ideRow);
       if (ide.sepAfter) {
@@ -254,49 +289,49 @@ class IssueInjector extends ButtonInjectorBase {
   }
 }
 
-class FileInjector extends ButtonInjectorBase {
-  constructor() {
-    super(".repository-content > div", "codestream-file-btn");
-  }
+// class FileInjector extends ButtonInjectorBase {
+//   constructor() {
+//     super(".repository-content > div", "codestream-file-btn");
+//   }
 
-  protected adjustButton(a: HTMLAnchorElement): void {
-    a.className = "btn btn-primary";
-  }
+//   protected adjustButton(a: HTMLAnchorElement): void {
+//     a.className = "btn btn-primary";
+//   }
 
-  isApplicableToCurrentPage(): boolean {
-    return window.location.pathname.includes("/blob/");
-  }
-}
+//   isApplicableToCurrentPage(): boolean {
+//     return window.location.pathname.includes("/blob/");
+//   }
+// }
 
-class NavigationInjector extends ButtonInjectorBase {
-  constructor() {
-    super(".file-navigation", "empty-icon position-relative");
-  }
+// class NavigationInjector extends ButtonInjectorBase {
+//   constructor() {
+//     super(".file-navigation", "empty-icon position-relative");
+//   }
 
-  protected adjustButton(a: HTMLAnchorElement): void {
-    a.className = "btn btn-primary";
-  }
+//   protected adjustButton(a: HTMLAnchorElement): void {
+//     a.className = "btn btn-primary";
+//   }
 
-  isApplicableToCurrentPage(): boolean {
-    return !!select.exists(".file-navigation");
-  }
-}
+//   isApplicableToCurrentPage(): boolean {
+//     return !!select.exists(".file-navigation");
+//   }
+// }
 
-class EmptyRepositoryInjector extends ButtonInjectorBase {
-  constructor() {
-    super(
-      ".repository-content",
-      CodeStreamify.CSS_REF_NO_CONTAINER,
-      false,
-      true
-    );
-  }
+// class EmptyRepositoryInjector extends ButtonInjectorBase {
+//   constructor() {
+//     super(
+//       ".repository-content",
+//       CodeStreamify.CSS_REF_NO_CONTAINER,
+//       false,
+//       true
+//     );
+//   }
 
-  protected adjustButton(a: HTMLAnchorElement): void {
-    a.className = "btn btn-primary";
-  }
+//   protected adjustButton(a: HTMLAnchorElement): void {
+//     a.className = "btn btn-primary";
+//   }
 
-  isApplicableToCurrentPage(): boolean {
-    return !!select.exists("git-clone-help-controller");
-  }
-}
+//   isApplicableToCurrentPage(): boolean {
+//     return !!select.exists("git-clone-help-controller");
+//   }
+// }

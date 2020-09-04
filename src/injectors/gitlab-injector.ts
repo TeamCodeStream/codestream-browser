@@ -52,7 +52,7 @@ class RepositoryInjector implements ButtonInjector {
     return result;
   }
 
-  inject(ide: string, autoOpen: boolean) {
+  inject(ide: string, autoOpen: boolean, checkoutBranch: boolean) {
     const parent = select(RepositoryInjector.PARENT_SELECTOR);
     if (!parent || !parent.firstElementChild) {
       return;
@@ -63,11 +63,15 @@ class RepositoryInjector implements ButtonInjector {
       return;
     }
 
-    const btn = this.renderButton(ide, autoOpen);
+    const btn = this.renderButton(ide, autoOpen, checkoutBranch);
     parent.firstElementChild.appendChild(btn);
   }
 
-  protected renderButton(url: string, autoOpen: boolean): HTMLElement {
+  protected renderButton(
+    url: string,
+    autoOpen: boolean,
+    checkoutBranch: boolean
+  ): HTMLElement {
     const container = document.createElement("div");
     container.className = "project-clone-holder d-none d-md-inline-block";
 
