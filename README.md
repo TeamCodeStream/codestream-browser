@@ -5,7 +5,7 @@ This is the browser extension for CodeStream, supporting Chrome ([Chrome Web Sto
 ## Build
 
 ```
-yarn install && yarn build && yarn package
+npm install && npm run build && npm run package
 ```
 
 ## Test
