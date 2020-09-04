@@ -1,0 +1,15 @@
+
+## Playground template for the codestream chrome extension
+#desc# codestream-chrome playground
+
+#playgroundName# csc
+#sandboxTypes# cs_chrome
+#sandboxes# {{SBNAME_cs_chrome}}
+#environment# local
+
+dt_load {{SBNAME_cs_chrome}}
+cd $CS_CHROME_TOP
+
+# uncomment these if you use iterm2 and want to colorize your tabs
+# . $DT_TOP/lib/iterm2-utils.sh
+# it2_tab_rgb {{SBNAME_cs_chrome}} 231 188 145
