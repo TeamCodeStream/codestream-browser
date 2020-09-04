@@ -13,7 +13,7 @@ npm install && npm run build && npm run package
 [Build](#build) the extension and
 
 - unzip `codestream.xpi` and load it as [“unpackaged extension” (Chrome)](https://developer.chrome.com/extensions/getstarted) or
-- load `codestream.xpi` as [“temporary add-on” (Firefox)](https://blog.mozilla.org/addons/2015/12/23/loading-temporary-add-ons/).
+- load `codestream.xpi` as [“temporary add-on” (Firefox)](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension).
 
 The extension is active until the next restart of your browser.
 
