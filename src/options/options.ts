@@ -1,4 +1,5 @@
 import { ConfigProvider } from "../config";
+import { IDEs } from "../utils";
 
 const codestreamUrlInput = document.getElementById("codestream-url-input")! as HTMLInputElement;
 const codestreamAutoOpenInput = document.getElementById(
@@ -7,6 +8,7 @@ const codestreamAutoOpenInput = document.getElementById(
 const codestreamCheckoutBranchInput = document.getElementById(
 	"codestream-checkout-branch"
 )! as HTMLInputElement;
+const codestreamIDESelect = document.getElementById("codestream-ide-select")! as HTMLDivElement;
 const messageElement = document.getElementById("message")! as HTMLDivElement;
 
 const init = async () => {
@@ -17,6 +19,15 @@ const init = async () => {
 	codestreamUrlInput.value = initialConfig.codestreamURL;
 	codestreamAutoOpenInput.checked = initialConfig.autoOpen;
 	codestreamCheckoutBranchInput.checked = initialConfig.checkoutBranch;
+
+	const selectedIde = initialConfig.ide;
+
+	IDEs.forEach((ide) => {
+		const ideOption = document.createElement("option");
+		ideOption.innerHTML = ide.moniker;
+		if (ide.moniker === selectedIde) ideOption.selected = true;
+		codestreamIDESelect.appendChild(ideOption);
+	});
 
 	let timeout: number | undefined = undefined;
 
