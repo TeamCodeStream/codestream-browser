@@ -44,7 +44,7 @@ export class GitHubInjector extends InjectorBase {
 
 	checkIsInjected(): boolean {
 		const button = document.getElementById(`${CodeStreamify.NAV_BTN_ID}`);
-		const currentUrl = renderCodeStreamUrl(this.config.codestreamURL);
+		const currentUrl = renderCodeStreamUrl(this.config.codeHostURL);
 		return checkIsBtnUpToDate(button, currentUrl);
 	}
 
@@ -265,7 +265,7 @@ class PullRequestInjector extends ButtonInjectorBase {
 		};
 		checkRow2.appendChild(check2);
 		const checkLabel2 = document.createElement("span");
-		checkLabel2.textContent = "Checkout to Branch&nbsp;&nbsp;";
+		checkLabel2.innerHTML = "Checkout to Branch&nbsp;&nbsp;";
 		checkRow2.appendChild(checkLabel2);
 
 		ddBody.appendChild(checkRow);

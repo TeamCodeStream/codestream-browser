@@ -1,14 +1,12 @@
 import { ConfigProvider } from "../config";
 import { IDEs } from "../utils";
 
-const codestreamUrlInput = document.getElementById("codestream-url-input")! as HTMLInputElement;
-const codestreamAutoOpenInput = document.getElementById(
-	"codestream-auto-open"
-)! as HTMLInputElement;
-const codestreamCheckoutBranchInput = document.getElementById(
+const codeHostInput = document.getElementById("codestream-code-host-url")! as HTMLInputElement;
+const autoOpenInput = document.getElementById("codestream-auto-open")! as HTMLInputElement;
+const checkoutBranchInput = document.getElementById(
 	"codestream-checkout-branch"
 )! as HTMLInputElement;
-const codestreamIDESelect = document.getElementById("codestream-ide-select")! as HTMLDivElement;
+const IDESelect = document.getElementById("codestream-ide-select")! as HTMLOptionElement;
 const messageElement = document.getElementById("message")! as HTMLDivElement;
 
 const init = async () => {
@@ -16,18 +14,9 @@ const init = async () => {
 
 	// Initialize UI
 	const initialConfig = configProvider.getConfig();
-	codestreamUrlInput.value = initialConfig.codestreamURL;
-	codestreamAutoOpenInput.checked = initialConfig.autoOpen;
-	codestreamCheckoutBranchInput.checked = initialConfig.checkoutBranch;
-
-	const selectedIde = initialConfig.ide;
-
-	IDEs.forEach((ide) => {
-		const ideOption = document.createElement("option");
-		ideOption.innerHTML = ide.moniker;
-		if (ide.moniker === selectedIde) ideOption.selected = true;
-		codestreamIDESelect.appendChild(ideOption);
-	});
+	codeHostInput.value = initialConfig.codeHostURL;
+	autoOpenInput.checked = initialConfig.autoOpen;
+	checkoutBranchInput.checked = initialConfig.checkoutBranch;
 
 	let timeout: number | undefined = undefined;
 
@@ -35,8 +24,10 @@ const init = async () => {
 	const save = () => {
 		// Update config (propagated internally)
 		configProvider.setConfig({
-			codestreamURL: codestreamUrlInput.value || undefined,
-			autoOpen: codestreamAutoOpenInput.checked,
+			codeHostURL: codeHostInput.value || undefined,
+			autoOpen: autoOpenInput.checked,
+			checkoutBranch: checkoutBranchInput.checked,
+			ide: IDESelect.value,
 		});
 		if (timeout) {
 			window.clearTimeout(timeout);
@@ -44,17 +35,29 @@ const init = async () => {
 		}
 		messageElement.innerText = "Saved.";
 		timeout = window.setTimeout(() => {
-			messageElement.innerText = "";
+			messageElement.innerHTML = "&nbsp;";
 			timeout = undefined;
 		}, 3000);
 	};
-	codestreamUrlInput.addEventListener("keyup", (event: KeyboardEvent) => {
+
+	const selectedIde = initialConfig.ide;
+	IDEs.forEach((ide) => {
+		const option = document.createElement("option");
+		option.value = ide.moniker;
+		option.innerText = ide.ideName;
+		if (ide.moniker === selectedIde) option.selected = true;
+		IDESelect.appendChild(option);
+	});
+	IDESelect.addEventListener("change", save);
+
+	codeHostInput.addEventListener("keyup", (event: KeyboardEvent) => {
 		if (event.isComposing || event.keyCode === 229) {
 			return;
 		}
 		save();
 	});
-	codestreamAutoOpenInput.addEventListener("change", save);
+	autoOpenInput.addEventListener("change", save);
+	checkoutBranchInput.addEventListener("change", save);
 };
 
 init().catch((err) => console.error(err));
