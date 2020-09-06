@@ -1,120 +1,120 @@
 /* GitHub */
 /* CSS selects by ID to override default style (loaded earlier: higher priority) */
 #codestream-btn-container {
-  position: relative;
+	position: relative;
 }
 
 #codestream-btn-container .hidden {
-  display: none;
+	display: none;
 }
 
 #codestream-btn-container #codestream-modal.active {
-  width: 100%;
-  height: 100%;
-  z-index: 80;
-  /* background: rgba(0, 0, 0, 0.1); */
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 80;
+	/* background: rgba(0, 0, 0, 0.1); */
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 }
 
 #codestream-btn-container input[type="checkbox"] {
-  vertical-align: -2px;
-  margin: 0 8px 0 4px;
+	vertical-align: -2px;
+	margin: 0 8px 0 4px;
 }
 
 #codestream-btn-container .dropdown {
-  z-index: 81;
-  top: 1.7em;
-  border-radius: 5px;
+	z-index: 81;
+	top: 1.7em;
+	border-radius: 5px;
 }
 
 #codestream-btn-container .select-menu-list {
-  border-radius: 5px;
-  max-height: 600px;
-  padding: 5px 0;
+	border-radius: 5px;
+	max-height: 600px;
+	padding: 5px 0;
 }
 
 #codestream-btn-container hr {
-  margin: 5px 0;
+	margin: 5px 0;
 }
 
 #codestream-btn-container .select-menu-item {
-  border-bottom: none;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  white-space: nowrap;
-  position: relative;
+	border-bottom: none;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	white-space: nowrap;
+	position: relative;
 }
 
 #codestream-btn-container .select-menu-item .jetbrains {
-  margin-left: -300px;
-  width: 300px;
+	margin-left: -300px;
+	width: 300px;
 }
 .repository-content > div #codestream-btn-container.codestream-file-btn,
 .file-navigation #codestream-btn-container {
-  margin-left: 6px;
+	margin-left: 6px;
 }
 
-#codestream-btn-container a {
-  border-radius: 6px 0 0 6px;
+#codestream-btn-container.cs-dropdown a {
+	border-radius: 6px 0 0 6px;
 }
 
-#codestream-btn-container a + a {
-  border-radius: 0 6px 6px 0;
-  border-left: none;
-  margin-left: 0px;
-  padding-left: 8px;
-  padding-right: 8px;
+#codestream-btn-container.cs-dropdown a + a {
+	border-radius: 0 6px 6px 0;
+	border-left: none;
+	margin-left: 0px;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 #codestream-btn-container .dropdown-caret {
-  margin-left: 0;
+	margin-left: 0;
 }
 
 .no-container {
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: flex-end;
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: flex-end;
 }
 
 /* Bitbucket */
 #commit-header .commit-actions {
-  width: 305px;
+	width: 305px;
 }
 
 .bitbucket-button {
-  background: rgba(9, 30, 66, 0.04);
-  border: none;
-  outline: 0;
-  height: 2.28571429em;
-  line-height: 1.57142857em;
-  box-sizing: border-box;
-  border-radius: 3.01px;
-  cursor: pointer;
-  display: inline-block;
-  margin: 0 4px;
-  padding: 4px 10px;
-  vertical-align: baseline;
-  white-space: nowrap;
+	background: rgba(9, 30, 66, 0.04);
+	border: none;
+	outline: 0;
+	height: 2.28571429em;
+	line-height: 1.57142857em;
+	box-sizing: border-box;
+	border-radius: 3.01px;
+	cursor: pointer;
+	display: inline-block;
+	margin: 0 4px;
+	padding: 4px 10px;
+	vertical-align: baseline;
+	white-space: nowrap;
 }
 
 .bitbucket-button:hover {
-  background: rgba(9, 30, 66, 0.08);
+	background: rgba(9, 30, 66, 0.08);
 }
 
 .bitbucket-button a,
 .aui-button a {
-  text-decoration: none;
-  color: #42526e !important;
-  font-family: inherit;
-  font-size: 14px;
-  font-variant: normal;
-  font-weight: 500;
+	text-decoration: none;
+	color: #42526e !important;
+	font-family: inherit;
+	font-size: 14px;
+	font-variant: normal;
+	font-weight: 500;
 }
 
 .bitbucket-button a:focus {
-  outline: none;
+	outline: none;
 }
