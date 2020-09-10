@@ -2,33 +2,10 @@
 
 This is the browser extension for CodeStream, supporting Chrome ([Chrome Web Store](https://chrome.google.com/webstore/detail/FIXME/)) and Firefox ([Firefox Add-ons](https://addons.mozilla.org/firefox/addon/codestream/)). It adds a **Open in ...** button on PR pages, offers to auto-link PRs into your editor, and adds a **Start Work** button on Issue pages.
 
-## Sandbox Installation (with dev_tools)
-
-```
-# Choose your sandbox name, for example:
-MY_SB_NAME=cschrome
-
-# install the sandbox
-dt-sb-new-sandbox -yCD -t cs_chrome -n $MY_SB_NAME
-
-# load your sandbox
-dt-load $MY_SB_NAME
-
-# create a playground file with a default name of 'csc'
-dt-sb-create-playground -t $CS_CHROME_TOP/sandbox/playgrounds/default.template
-```
-
-From this point forward, when you want to load your playground into a shell,
-just type:
-
-```
-dt-load-playground csc
-```
-
 ## Build
 
 ```
-npm install && npm run build && npm run package
+npm install --no-save && npm run build && npm run package
 ```
 
 ## Test

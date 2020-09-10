@@ -1,10 +1,14 @@
 {
   "private": true,
-  "name": "codestream-web-extension",
-  "version": "0.0.1",
+  "name": "codestream-browser",
+  "version": "1.0.0",
   "license": "Apache2",
   "description": "Browser extension (Chrome/Firefox) for enhancing GitHub with CodeStream links",
   "main": "src/codestreamify.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teamcodestream/codestream-browser"
+  },
   "scripts": {
     "build": "npm run clean && npx tsc && npm run webpack",
     "package": "npm run clean:package && zip -rD --exclude='src/*.ts' codestream.xpi dist/bundles icons src manifest.json",

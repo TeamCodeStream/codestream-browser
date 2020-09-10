@@ -7,4 +7,5 @@ Images should be stored in docs/images/
 
 ## Contents
 
-* [some document](some-file.md) - This is some document
+* [Andbox Installation and Management](sandbox-management.md) - Instructions for
+  working with the repo when using CodeStream dev_tools.
