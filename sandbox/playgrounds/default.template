@@ -1,8 +1,8 @@
 
 ## Playground template for the codestream chrome extension
-#desc# codestream-chrome playground
+#desc# codestream-browser playground
 
-#playgroundName# csc
+#playgroundName# csbrowser
 #sandboxTypes# CS_BROWSER
 #sandboxes# {{SBNAME_CS_BROWSER}}
 #environment# local
