@@ -31,15 +31,15 @@ githook_module_is_modified() {
 # call the config-sandbox script if package.json, package-lock.json or yarn.lock changed or
 # if any git submodules' status is modified
 githook_reconfigure_sandbox() {
-    [ -z "$CS_CHROME_TOP" ] && echo "CS_CHROME_TOP not set. Git hook won't run." && return
+    [ -z "$CS_BROWSER_TOP" ] && echo "CS_BROWSER_TOP not set. Git hook won't run." && return
     local call_sandbox_config=0
     githook_module_is_modified && call_sandbox_config=1
     [ $call_sandbox_config -eq 0  -a  -f package.json ] && githook_file_has_changed package.json && call_sandbox_config=1
 	[ $call_sandbox_config -eq 0  -a  -f package-lock.json ] && githook_file_has_changed package-lock.json && call_sandbox_config=1
-    [ $call_sandbox_config -eq 0  -a  \( "$CS_CHROME_YARN" == "true"  -o  "$CS_CHROME_YARN" == "1" \) ] && githook_file_has_changed yarn.lock && call_sandbox_config=1
+    [ $call_sandbox_config -eq 0  -a  \( "$CS_BROWSER_YARN" == "true"  -o  "$CS_BROWSER_YARN" == "1" \) ] && githook_file_has_changed yarn.lock && call_sandbox_config=1
     [ $call_sandbox_config -eq 1 ] && echo "executing sandbox/configure-sandbox git-hook" && sandbox/configure-sandbox git-hook
 }
 
-[ "$CS_CHROME_DISABLE_GIT_HOOKS" == 1 ] && echo "hooks disabled (CS_CHROME_DISABLE_GIT_HOOKS=1)" && exit 0
+[ "$CS_BROWSER_DISABLE_GIT_HOOKS" == 1 ] && echo "hooks disabled (CS_BROWSER_DISABLE_GIT_HOOKS=1)" && exit 0
 [ "$DT_DISABLE_SB_GIT_HOOKS" == 1 ] && echo "hooks disabled (DT_DISABLE_SB_GIT_HOOKS=1)" && exit 0
 return 0

@@ -3,13 +3,13 @@
 #desc# codestream-chrome playground
 
 #playgroundName# csc
-#sandboxTypes# cs_chrome
-#sandboxes# {{SBNAME_cs_chrome}}
+#sandboxTypes# CS_BROWSER
+#sandboxes# {{SBNAME_CS_BROWSER}}
 #environment# local
 
-dt_load {{SBNAME_cs_chrome}}
-cd $CS_CHROME_TOP
+dt_load {{SBNAME_CS_BROWSER}}
+cd $CS_BROWSER_TOP
 
 # uncomment these if you use iterm2 and want to colorize your tabs
 # . $DT_TOP/lib/iterm2-utils.sh
-# it2_tab_rgb {{SBNAME_cs_chrome}} 231 188 145
+# it2_tab_rgb {{SBNAME_CS_BROWSER}} 231 188 145

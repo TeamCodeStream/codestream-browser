@@ -1,5 +1,5 @@
-SB_TYPE=cs_chrome
-SB_PREFIX=CS_CHROME
+SB_TYPE=cs_browser
+SB_PREFIX=CS_BROWSER
 GIT_ORIGIN=git@github.com:teamcodestream/codestream-browser
 SB_PROJECT_PATH=codestream-browser
 # SB_DEPS=a:b:c

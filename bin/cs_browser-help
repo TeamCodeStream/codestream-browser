@@ -2,4 +2,4 @@
 
 #desc# brief command summary
 
-dt-help "$CS_CHROME_TOP/bin" "$@"
+dt-help "$CS_BROWSER_TOP/bin" "$@"

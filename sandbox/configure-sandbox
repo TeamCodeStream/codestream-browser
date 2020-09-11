@@ -21,7 +21,7 @@ abort_on_fail=1
 # Place any commands needed to prepare the sandbox for use here. Assume the
 # environment is set
 
-cd $CS_CHROME_TOP
+cd $CS_BROWSER_TOP
 [ ! -d .git ] && echo "nothing to configure for a pre-built asset sandbox" && exit 0
 
 # Install git submodules
@@ -31,10 +31,10 @@ cd $CS_CHROME_TOP
 # $DT_TOP/bin/create-file-from-template.py -t $XYZ_SANDBOX/git_project/etc/httpd.conf.template -o $XYZ_SANDBOX/conf/httpd.conf
 
 # If the sandbox uses node, wipe the node_modules and re-install during re-configuration
-if [ -f $CS_CHROME_TOP/package.json -a -n "$CS_CHROME_NODE_VER" ]; then
-	[ -d $CS_CHROME_TOP/node_modules ] && /bin/rm -rf $CS_CHROME_TOP/node_modules
-	if [ "$CS_CHROME_YARN" == true ]; then
-		[ ! -f $CS_CHROME_TOP/yarn.lock ] && echo "WARNING: yarn.lock not found - creating one"
+if [ -f $CS_BROWSER_TOP/package.json -a -n "$CS_BROWSER_NODE_VER" ]; then
+	[ -d $CS_BROWSER_TOP/node_modules ] && /bin/rm -rf $CS_BROWSER_TOP/node_modules
+	if [ "$CS_BROWSER_YARN" == true ]; then
+		[ ! -f $CS_BROWSER_TOP/yarn.lock ] && echo "WARNING: yarn.lock not found - creating one"
 		echo "yarn install (from `pwd`)"
 		yarn install --frozen-lockfile
 		[ $? -ne 0 ] && echo "yarn install failed" && [ $abort_on_fail -eq 1 ] && exit 1
@@ -48,7 +48,7 @@ fi
 # Optional NPM package integrity check
 # To set this integrtity check up, you must manually create (and maintain) a file containing
 # a list of packages whenever you make changes:
-#    cd $CS_CHROME_TOP
+#    cd $CS_BROWSER_TOP
 #    npm ls | grep -v ^CodeStream_Server@ >sandbox/package-versions.txt
 #
 #
@@ -69,12 +69,12 @@ fi
 
 
 # Add git hooks as needed
-if [ -d "$CS_CHROME_TOP/hooks" ]; then
+if [ -d "$CS_BROWSER_TOP/hooks" ]; then
 	echo -n "Installing git hooks as sym links"
-	cd $CS_CHROME_TOP/.git/hooks
+	cd $CS_BROWSER_TOP/.git/hooks
 	for hook in post-checkout post-merge post-rewrite
 	do
-		if [ -f $CS_CHROME_TOP/hooks/$hook ]; then
+		if [ -f $CS_BROWSER_TOP/hooks/$hook ]; then
 			echo -n "...$hook"
 			/bin/rm -f $hook
 			ln -sf ../../hooks/$hook
