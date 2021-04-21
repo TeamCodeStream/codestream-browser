@@ -1,6 +1,6 @@
 # CodeStream Browser extension
 
-This is the browser extension for CodeStream, supporting Chrome ([Chrome Web Store](https://chrome.google.com/webstore/detail/FIXME/)) and Firefox ([Firefox Add-ons](https://addons.mozilla.org/firefox/addon/codestream/)). It adds a **Open in ...** button on PR pages, offers to auto-link PRs into your editor, and adds a **Start Work** button on Issue pages.
+This is the browser extension for CodeStream, supporting Chrome ([Chrome Web Store](https://chrome.google.com/webstore/detail/codestream-in-ide-collabo/bfabeannfdkljcniaghbliflbnbidjok)) and Firefox ([Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/codestream-ide-connector/)). It adds a **Open in ...** button on PR pages, offers to auto-link PRs into your editor, and adds a **Start Work** button on Issue pages.
 
 ## Build
 
