@@ -1,39 +1,39 @@
 {
-  "private": true,
-  "name": "codestream-browser",
-  "version": "1.0.0",
-  "license": "Apache2",
-  "description": "Browser extension (Chrome/Firefox) for enhancing GitHub with CodeStream links",
-  "main": "src/codestreamify.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/teamcodestream/codestream-browser"
-  },
-  "scripts": {
-    "build": "npm run clean && npx tsc && npm run webpack",
-    "package": "npm run clean:package && zip -rD --exclude='src/*.ts' codestream.xpi dist/bundles icons src manifest.json",
-    "clean": "rimraf dist && npm run clean:package",
-    "clean:package": "rimraf codestream.xpi",
-    "webpack": "webpack",
-    "watch": "webpack -w"
-  },
-  "dependencies": {
-    "@types/events": "^3.0.0",
-    "dom-loaded": "^2.0.0",
-    "github-injection": "^1.0.1",
-    "select-dom": "^5.1.0",
-    "tsc": "^1.20150623.0",
-    "webextension-polyfill": "^0.5.0"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^5.0.5",
-    "css-loader": "^3.2.0",
-    "rimraf": "^3.0.0",
-    "source-map-loader": "^0.2.4",
-    "style-loader": "^1.0.0",
-    "typescript": "^4.0.2",
-    "webextension-polyfill-ts": "^0.11.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
-  }
+	"private": true,
+	"name": "codestream-browser",
+	"version": "1.0.0",
+	"license": "Apache2",
+	"description": "Browser extension (Chrome/Firefox) for enhancing GitHub with CodeStream links",
+	"main": "src/codestreamify.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/teamcodestream/codestream-browser"
+	},
+	"scripts": {
+		"build": "npm run clean && npx tsc && npm run webpack",
+		"package": "npm run clean:package && zip -rD --exclude='src/*.ts' codestream.xpi dist/bundles icons src manifest.json THIRD_PARTY_NOTICES.md LICENSE",
+		"clean": "rimraf dist && npm run clean:package",
+		"clean:package": "rimraf codestream.xpi",
+		"webpack": "webpack",
+		"watch": "webpack -w"
+	},
+	"dependencies": {
+		"@types/events": "^3.0.0",
+		"dom-loaded": "^2.0.0",
+		"github-injection": "^1.0.1",
+		"select-dom": "^5.1.0",
+		"tsc": "^1.20150623.0",
+		"webextension-polyfill": "^0.5.0"
+	},
+	"devDependencies": {
+		"copy-webpack-plugin": "^5.0.5",
+		"css-loader": "^3.2.0",
+		"rimraf": "^3.0.0",
+		"source-map-loader": "^0.2.4",
+		"style-loader": "^1.0.0",
+		"typescript": "^4.0.2",
+		"webextension-polyfill-ts": "^0.11.0",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.10"
+	}
 }
